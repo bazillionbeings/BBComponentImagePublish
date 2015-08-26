@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bazillionbeings/BBComponentImagePublish/issues"
   },
-  "homepage": "https://github.com/bazillionbeings/BBComponentImagePublish#readme"
+  "homepage": "https://github.com/bazillionbeings/BBComponentImagePublish#readme",
+  "dependencies": {
+    "bb-component": "git+https://github.com/bazillionbeings/BBComponent.git"
+  }
 }

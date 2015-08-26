@@ -1,7 +1,9 @@
 'use strict';
 
-var constValues = require("./constValues.json");
-var Component = require('./Component');
+var bbComponent = require('bb-component');
+var constValues = bbComponent.constValues;
+var ComponentResult = bbComponent.ComponentResult;
+var Component = bbComponent.Component;
 
 function ImagePublish(controllerCallBacks, dataStore) {
 	Component.call(this, controllerCallBacks, dataStore, [constValues.componentOutputTypes.imageURL]);
