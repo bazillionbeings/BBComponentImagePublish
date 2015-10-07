@@ -1,33 +1,43 @@
 'use strict';
 
-var bbComponent = require('bb-component');
-var constValues = bbComponent.constValues;
-var ComponentResult = bbComponent.ComponentResult;
-var Component = bbComponent.Component;
+let bbComponent = require('bb-component'),
+    constValues = bbComponent.constValues,
+    ComponentResult = bbComponent.ComponentResult,
+    Component = bbComponent.Component;
 
-function ImagePublish(controllerCallBacks, dataStore) {
-	Component.call(this, controllerCallBacks, dataStore, [constValues.componentOutputTypes.imageURL]);
-  this._controllerCallBacks = controllerCallBacks;
-}
-
-ImagePublish.prototype = Object.create(Component.prototype);
-
-ImagePublish.prototype.setProvider = function(fbProvider) {
-	var self = this;
-  fbProvider.post('/me/photos', {
-    url: this._inputs[constValues.componentOutputTypes.imageURL]
-  }, function(err, res) {
-    if (err) {
-      self._controllerCallBacks.error(err);
-      return;
+class ImagePublish extends Component {
+    constructor(controllerCallBacks) {
+        super(controllerCallBacks, [constValues.componentOutputTypes.imageURL]);
     }
-    self._controllerCallBacks.finish();
-    console.log('success');
-  });
-};
 
-ImagePublish.prototype.execute = function() {
-	this._controllerCallBacks.providerRequest(constValues.providerTypes.facebook);
-};
+    _executeIfReady() {
+        if (this._fbProvider && this._imageUrl) {
+            fbProvider.post('/me/photos', {
+                url: this._imageUrl
+            }, (err, res) => {
+                if (err) {
+                    this._controllerCallBacks.error(err);
+                    return;
+                }
+                this._controllerCallBacks.finish();
+                console.log('success');
+            });
+        }
+    }
+
+    setProvider(fbProvider) {
+        this._fbProvider = fbProvider;
+        _executeIfReady();
+    }
+
+    dataInput(imageUrl) {
+        this._imageUrl = imageUrl;
+        _executeIfReady();
+    }
+
+    execute() {
+        this._controllerCallBacks.providerRequest(constValues.providerTypes.facebook);
+    }
+}
 
 module.exports = ImagePublish;
