@@ -27,12 +27,12 @@ class ImagePublish extends Component {
 
     setProvider(fbProvider) {
         this._fbProvider = fbProvider;
-        _executeIfReady();
+        this._executeIfReady();
     }
 
     dataInput(imageUrl) {
         this._imageUrl = imageUrl;
-        _executeIfReady();
+        this._executeIfReady();
     }
 
     execute() {
