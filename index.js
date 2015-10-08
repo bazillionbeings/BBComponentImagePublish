@@ -12,7 +12,7 @@ class ImagePublish extends Component {
 
     _executeIfReady() {
         if (this._fbProvider && this._imageUrl) {
-            fbProvider.post('/me/photos', {
+            this._fbProvider.post('/me/photos', {
                 url: this._imageUrl
             }, (err, res) => {
                 if (err) {
